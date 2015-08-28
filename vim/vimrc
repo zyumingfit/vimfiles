@@ -1,0 +1,275 @@
+"
+" This is an example of .vimrc file.
+"
+" URL: https://github.com/xiaoquqi/dotfiles
+" AUTHOR: Ray Sun <xiaoquqi@gmail.com>
+"
+" UPDATE HISTORY:
+"   2015-04-24 Recreate vimrc file to make the structure more clearly
+"
+
+
+"------------------------------------------------------------
+" Vundle Installation(https://github.com/gmarik/Vundle.vim)
+
+set nocompatible  " explicitly get out of vi-compatible mode
+filetype off      " required!
+
+" This loads all the plugins in ~/.vim/bundle
+" Use vundle plugin to manage all other plugins
+
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
+
+" let Vundle manage Vundle, required!
+Plugin 'gmarik/Vundle.vim'
+
+" My Plugins here:
+
+" original repos on github
+Plugin 'tpope/vim-rails.git'               " Ruby on Rails tools(https://github.com/tpope/vim-rails)
+Plugin 'maksimr/vim-jsbeautify.git'        " Quickly format javascript, html and css files(https://github.com/maksimr/vim-jsbeautify)
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'} " Sparkup lets you write HTML code faster(https://github.com/rstacruz/sparkup)
+Plugin 'ervandew/supertab'                 " Perform all your vim insert mode completions with Tab(https://github.com/ervandew/supertab)
+Plugin 'nvie/vim-flake8.git'               " Flake8 plugin for Vim(https://github.com/nvie/vim-flake8)
+Plugin 'rodjek/vim-puppet'                 " Puppet niceties for your Vim setup(https://github.com/rodjek/vim-puppet)
+Plugin 'kchmck/vim-coffee-script'          " CoffeeScript support for vim(https://github.com/kchmck/vim-coffee-script)
+Plugin 'kien/ctrlp.vim'                    " Fuzzy file, buffer, mru, tag, etc finder(https://github.com/kien/ctrlp.vim)
+Plugin 'Valloric/YouCompleteMe'            " A code-completion engine for Vim
+Plugin 'davidhalter/jedi-vim'              " Using the jedi autocompletion library for VIM
+Plugin 'Lokaltog/vim-powerline'            " vim statusline utility(https://github.com/Lokaltog/vim-powerline)
+
+" vim-scripts repos
+Plugin 'L9'
+Plugin 'taglist.vim'
+Plugin 'winmanager'
+Plugin 'python.vim'
+
+" non github repos
+"Plugin 'git://git.wincent.com/command-t.git'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+
+"------------------------------------------------------------
+" General Config
+
+set ruler                       " Show ruler
+set number                      " Line numbers are good
+set backspace=indent,eol,start  " Allow backspace in insert mode
+set history=1000                " Store lots of :cmdline history
+set showcmd                     " Show incomplete cmds down the bottom
+set showmode                    " Show current mode down the bottom
+set gcr=a:blinkon0              " Disable cursor blink
+set novisualbell                " No sounds
+set noerrorbells                " No noise
+set cursorline              " 突出显示当前行
+set autoread                    " Reload files changed outside vim
+set history=256                 " Number of things to remember in history.
+set showmatch                   " Show matching brackets.
+set laststatus=2                " Always show status line
+set t_Co=256                    " As I use dark background in mac, I also can use this colorscheme on mac
+set nobackup
+set nowb
+set list listchars=tab:\ \ ,trail:· " Display tabs and trailing spaces visually
+set linebreak                       " Wrap lines at convenient points
+
+syntax on                       " Turn on syntax highlight
+
+" Persistent Undo
+" Keep undo history across sessions, by storing in file.
+" Only works all the time.
+set undodir=~/.vim/backups
+set undofile
+
+" Search Options
+set incsearch                   " Find the next match as we type the search
+set hlsearch                    " Hilight searches by default
+set viminfo='100,f1             " Save up to 100 marks, enable capital marks
+
+" Indentation
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+
+" Folds
+set foldmethod=indent           " fold based on indent
+set foldnestmax=3               " deepest fold is 3 levels
+set nofoldenable                " dont fold by default
+
+" Leader setting
+let mapleader = "," " rebind <Leader> key
+
+" Custom mappings
+vnoremap < <gv  " better indentation
+vnoremap > >gv  " better indentation
+map <Leader>a ggVG  " select all
+
+" Movement
+" bind Ctrl + <movement> keys to move around the windows, instead of using Ctrl + w + <movement>
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+
+" tabs
+map <Leader>, <esc>:tabprevious<CR>
+map <Leader>. <esc>:tabnext<CR>
+
+" sort
+vnoremap <Leader>s :sort<CR>
+
+" Show trailing whitespace
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+au InsertLeave * match ExtraWhitespace /\s\+$/
+map <Leader>x :%s/\s\+$//
+
+
+colorscheme elflord
+""------------------------------------------------------------
+"" Schema settings, for iterm2 settings
+""
+"" References:
+""   http://stackoverflow.com/questions/7278267/incorrect-colors-with-vim-in-iterm2-using-solarized
+""   https://github.com/altercation/solarized
+"
+"Plugin 'flazz/vim-colorschemes'            " Color Schema(https://github.com/flazz/vim-colorschemes)
+"let os = substitute(system('uname'), "\n", "", "")
+"
+"if os == "Linux"
+"  try
+"    colorscheme desert256
+"  catch /^Vim\%((\a\+)\)\=:E185/
+"    " deal with it
+"  endtry
+"endif
+"
+"if os == "Darwin"
+"  set background=dark
+"  " solarized options
+"  let g:solarized_visibility = "high"
+"  let g:solarized_contrast = "high"
+"  let g:solarized_termcolors=16
+"  try
+"    colorscheme solarized
+"  catch /^Vim\%((\a\+)\)\=:E185/
+"    " deal with it
+"  endtry
+"endif
+"
+"" For Mac I use iterm2 as my default terminal, and use rippedcasts as
+"" default theme for terminal(https://github.com/mdw123/rippedcasts)
+"" Here I use default vim theme here, but you can still set your favourite
+"" in else condition above.
+"
+"" This makes vim act like all other editors, buffers can
+"" exist in the background without being in a window.
+"" http://items.sjbach.com/319/configuring-vim-right
+"set hidden
+"syntax enable
+"set background=dark
+"let g:solarized_termcolors=256
+""set t_Co=16
+"colorscheme solarized
+
+
+
+
+"------------------------------------------------------------
+" set file type indent
+augroup myfiletypes
+  " Clear old autocmds in group
+  autocmd!
+  autocmd FileType ruby,eruby,yaml set ai sw=2 sts=2 et
+  autocmd FileType css set ai sw=2 sts=2 et
+  autocmd FileType js set ai sw=4 sts=4 et
+  autocmd FileType javascript set tabstop=4 shiftwidth=4 expandtab
+  autocmd BufNewFile,BufRead Jakefile set filetype=javascript
+  autocmd BufNewFile,BufRead *.hb set filetype=html
+  autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
+  autocmd BufNewFile,BufRead *.sls set filetype=yaml
+  " http://linux-wiki.cn/wiki/zh-hans/%E9%85%8D%E7%BD%AE%E5%9F%BA%E4%BA%8EVim%E7%9A%84Python%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83
+  autocmd FileType python set ai tabstop=4 shiftwidth=4 softtabstop=4 et
+  " http://stackoverflow.com/questions/2063175/vim-insert-mode-comments-go-to-start-of-line
+  autocmd FileType python set foldmethod=indent nosmartindent
+augroup END
+
+"------------------------------------------------------------
+" Completion
+set wildmode=list:longest
+set wildmenu
+set wildignore=*.o,*.obj,*~
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+"------------------------------------------------------------
+" winmanager
+let g:winManagerWindowLayout = 'FileExplorer|TagList'
+let g:winManagerWidth = 50
+"nmap wm :WMToggle<CR>
+nmap <silent> <F8> :WMToggle<cr>
+let g:AutoOpenWinManager = 1
+
+" tag list
+let Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow = 1
+
+"------------------------------------------------------------
+" Rails
+let g:rails_default_file = 'config/database.yml' " Change which file opens after executing :Rails command
+
+"------------------------------------------------------------
+" Python
+
+" http://linux-wiki.cn/wiki/zh-hans/%E9%85%8D%E7%BD%AE%E5%9F%BA%E4%BA%8EVim%E7%9A%84Python%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83
+" forbidden PyFlakes to use QuickFix, Press F7 will call flake8
+let g:pyflakes_use_quickfix = 0
+" ignore part of errors
+let g:flake8_ignore="E501"
+
+"------------------------------------------------------------
+" Settings for ctrlp
+let g:ctrlp_max_height = 30
+let g:ctrlp_user_command = [
+    \ '.git', 'cd %s && git ls-files . -co --exclude-standard',
+    \ 'find %s -type f'
+    \ ]
+
+"------------------------------------------------------------
+" Settings for vim-powerline
+set laststatus=2
+let g:Powerline_symbols = 'fancy'
+
+"------------------------------------------------------------
+" Settings for ctrlp
+let g:ctrlp_max_height = 30
+let g:ctrlp_user_command = [
+    \ '.git', 'cd %s && git ls-files . -co --exclude-standard',
+    \ 'find %s -type f'
+    \ ]
